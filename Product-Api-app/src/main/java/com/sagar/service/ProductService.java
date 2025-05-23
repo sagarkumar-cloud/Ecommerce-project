@@ -1,0 +1,24 @@
+package com.sagar.service;
+
+import java.util.List;
+
+import com.sagar.dto.ProductDto;
+
+
+public interface ProductService {
+
+	public ProductDto createProduct(Long categoryId,ProductDto productDto);
+	
+	public ProductDto updateProducts(Long categoryId,Long productId,ProductDto productDto);
+	
+	public boolean deleteProduct(Long productId);
+	
+	public List<ProductDto> getAllProduct();
+	
+	public ProductDto getProductBasedOnName(String productName);
+	
+	public ProductDto getProductById(Long productId);
+	
+	public List<ProductDto> getAllProductByCategoryId(Long categoryId);
+	
+}

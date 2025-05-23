@@ -1,0 +1,5 @@
+package com.sagar.repo;
+
+public interface ProductRepository {
+
+}

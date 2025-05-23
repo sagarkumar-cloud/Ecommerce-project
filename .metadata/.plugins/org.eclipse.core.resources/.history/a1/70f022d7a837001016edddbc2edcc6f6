@@ -1,0 +1,65 @@
+package com.sagar.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+
+import com.sagar.dto.CategoryDto;
+import com.sagar.entity.ProductCategory;
+import com.sagar.repo.ProductCategoryRepository;
+import com.sagar.service.CategoryService;
+
+@Service
+public class CategoryServiceImpl implements CategoryService{
+	
+	private ProductCategoryRepository productCategoryRepository;
+
+	public CategoryServiceImpl(ProductCategoryRepository productCategoryRepository) {
+		this.productCategoryRepository = productCategoryRepository;
+	}
+
+	@Override
+	public CategoryDto createCategory(CategoryDto categoryDto) {
+		ProductCategory product = new ProductCategory();
+		BeanUtils.copyProperties(categoryDto, product);
+		ProductCategory save = productCategoryRepository.save(product);
+		CategoryDto categoDto= new CategoryDto();
+		BeanUtils.copyProperties(save, categoDto);
+		return categoDto;
+	}
+
+	@Override
+	public List<CategoryDto> getAllCategory() {
+		List<ProductCategory> allCatogory = productCategoryRepository.findAll();
+		List<CategoryDto> categories= new ArrayList<>();
+		for(ProductCategory catogory : allCatogory) {
+	    CategoryDto categoDto= new CategoryDto();
+         BeanUtils.copyProperties(catogory, categoDto);
+         categories.add(categoDto);
+		}
+		return categories;
+	}
+
+	@Override
+	public CategoryDto updateCategory(Long categoryId, CategoryDto categoryDto) {
+		ProductCategory productCategory = productCategoryRepository.findById(categoryId).orElseThrow();
+		productCategory.setCategoryName(categoryDto.getCategoryName());
+		ProductCategory save = productCategoryRepository.save(productCategory);
+	    CategoryDto categoDto= new CategoryDto();
+        BeanUtils.copyProperties(save, categoDto);
+		return categoDto;
+	}
+
+	@Override
+	public boolean deleteCategory(Long categoryId) {
+		ProductCategory productCategory = productCategoryRepository.findById(categoryId).orElseThrow();
+		if(productCategory != null) {
+			productCategoryRepository.deleteById(categoryId);
+			return true;
+		}
+		return false;
+	}
+
+}
