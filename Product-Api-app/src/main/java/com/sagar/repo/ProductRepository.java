@@ -9,8 +9,11 @@ import com.sagar.entity.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 	
-	Optional<Product> findByName(String name);
+	//Optional<Product> findByName(String name);
+	//List<Product> findByNameContaining(String name);
 	
 	List<Product> findByProductCategoryCategoryId(Long categoryId);
+
+	List<Product> findByNameContainingIgnoreCase(String productName);
 
 }

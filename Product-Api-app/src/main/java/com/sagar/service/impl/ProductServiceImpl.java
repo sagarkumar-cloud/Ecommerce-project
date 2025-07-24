@@ -55,7 +55,7 @@ public class ProductServiceImpl implements ProductService {
 		product.setDescription(productDto.getDescription());
 		product.setTitle(productDto.getTitle());
 		product.setUnitPrice(productDto.getUnitPrice());
-		product.setUnitStocks(productDto.getUnitStocks());
+		product.setUnitInStocks(productDto.getUnitInStocks());
 		product.setImageURL(productDto.getImageURL());
 		product.setActive(productDto.getActive());
 
@@ -91,14 +91,18 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public ProductDto getProductBasedOnName(String productName) {
-		Product product = productRepository.findByName(productName).orElseThrow();
-		if (product != null) {
-			ProductDto productDto = new ProductDto();
-			BeanUtils.copyProperties(product, productDto);
-			return productDto;
+	public List<ProductDto> getProductBasedOnName(String productName) {
+		List<Product> byNameContaining = productRepository.findByNameContainingIgnoreCase(productName);
+		List<ProductDto> productDtos = new ArrayList<>();
+
+		if (byNameContaining != null) {
+			for (Product prod : byNameContaining) {
+				ProductDto productDto = new ProductDto();
+				BeanUtils.copyProperties(prod, productDto);
+				productDtos.add(productDto);
+			}
 		}
-		return null;
+		return productDtos;
 	}
 
 	@Override

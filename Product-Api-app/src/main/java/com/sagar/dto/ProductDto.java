@@ -12,7 +12,9 @@ public class ProductDto {
 	private String description;
 	private String title;
 	private BigDecimal unitPrice;
+	
 	private String imageURL;
 	private Boolean active;
-	private Integer unitStocks;
-}
+	private Integer unitInStocks;
+	
+	}
